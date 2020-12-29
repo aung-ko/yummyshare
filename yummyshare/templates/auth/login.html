@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Login
+{% endblock title %}
+
+
+{% block head %}
+<style>
+    #alertMessage {
+        display: none;
+    }
+</style>
+{% endblock head %}
+
+
+
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-lg-4 offset-lg-4">
+        <h2 class="mb-3">Login</h2>
+        {% if get_flashed_messages() %}
+        <header>
+            <div class="alert alert-danger border text-center" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        </header>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form.csrf_token }}
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+                {{ form.username(class_="form-control") }}
+                <label class="form-label" for="username">{{ form.username.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.username.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                {{ form.password(class_="form-control") }}
+                <label class="form-label" for="password">{{ form.password.label }}</label>
+
+                {% if form.password.errors %}
+                <div class="invalid-feedback">
+                    {% for message in form.password.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block">log in</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

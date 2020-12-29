@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Update Recipe
+{% endblock title %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col">
+        <div>
+            <form action="{{ url_for('recipe.delete', recipe_id=recipe.id) }}" method="POST" class="float-end">
+                <button class="btn btn-sm btn-danger" type="submit"
+                    onclick="return confirm('Are you sure want to delete?');"><i class="fas fa-trash"></i>
+                    Delete</button>
+            </form>
+            <h2 class="mb-3">Update recipe</h2>
+        </div>
+        <form method="POST" action="{{ url_for('recipe.update', recipe_id=recipe.id) }}" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <div class="mb-4">
+                <label for="image" class="form-label">Upload photo of your dish</label>
+                {{ form.image(class_="form-control", accept="image/*") }}
+
+                <div class="invalid-feedback">
+                    {% for message in form.image.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="text" name="name" class="form-control" value="{{ form.name.data or recipe.name }}">
+                <label class="form-label" for="name">{{ form.name.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.name.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="text" name="description" class="form-control"
+                    value="{{ form.description.data or recipe.description }}">
+                <label class="form-label" for="description">{{ form.description.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.description.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="cuisine">Select Cuisine</label>
+
+                <select name="cuisine" id="cuisine" class="form-control">
+                    {% for cuisine in cuisines %}
+                    <option value="{{ cuisine[0] }}" {% if recipe.cuisine == cuisine[0] %}selected{% endif %}>
+                        {{ cuisine[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="invalid-feedback">
+                    {% for message in form.cuisine.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="course">Select Course</label>
+                <select name="course" id="cuisine" class="form-control">
+                    {% for course in courses %}
+                    <option value="{{ course[0] }}" {% if recipe.course == course[0] %}selected{% endif %}>
+                        {{ course[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="invalid-feedback">
+                    {% for message in form.course.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <textarea name="ingredients" id="ingredients" rows="7" class="form-control text-paragraph">
+                {{ recipe.ingredients }}
+                </textarea>
+                <label class="form-label" for="ingredients">{{ form.ingredients.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.ingredients.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <textarea name="instructions" id="instructions" cols="35" rows="20" class="form-control text-paragraph">
+                {{ form.instructions.data or recipe.instructions }}
+                </textarea>
+                <label class="form-label" for="instructions">{{ form.instructions.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.instructions.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+    document.querySelector("#image").required = false
+
+    const textAreas = document.querySelectorAll(".text-paragraph");
+    textAreas.forEach(function (element) {
+        element.textContent = element.textContent.trim()
+    })
+</script>
+{% endblock scripts %}

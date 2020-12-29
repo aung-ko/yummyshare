@@ -1,0 +1,12 @@
+.vscode
+.DS_Store
+
+venv/
+instance/
+yummyshare/static/images/recipes/
+
+
+# Python compiled byte code
+__pycache__/
+.pytest_cache/
+*.pyc

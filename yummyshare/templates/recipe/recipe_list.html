@@ -1,0 +1,23 @@
+<div class="row">
+    {% for recipe in recipes.items %}
+    <div class="card mb-3 col-lg-4 col-md-4 col-sm-6">
+        <a href="{{ url_for('recipe.view_recipe', recipe_id=recipe.id) }}">
+            <img src="{{ url_for('static', filename='images/recipes/{}'.format(recipe.image)) }}"
+                class="card-img-top pt-2" alt="{{ recipe.name }}" />
+        </a>
+        <div class="card-body">
+            <h5 class="card-title"><a href="{{ url_for('recipe.view_recipe', recipe_id=recipe.id) }}">{{ recipe.name }}
+            </h5></a>
+            <p class="card-text">
+                {{ recipe.description }}
+            </p>
+            <p class="card-text">
+                <small class="text-muted">published on
+                    <span class="published-date">{{ recipe.created_datetime }}</span>
+                </small>
+                <small class="text-muted"> by {{ recipe.user.username }}</small>
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>

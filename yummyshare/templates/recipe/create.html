@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Create Your recipe and Share | YummyShare
+{% endblock title %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col">
+        <h2 class="mb-3">Share your recipe</h2>
+        <form method="POST" action="{{ url_for('recipe.create') }}" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <div class="mb-4">
+                <label for="image" class="form-label">Upload photo of your dish</label>
+                {{ form.image(class_="form-control", accept="image/*") }}
+
+                <div class="invalid-feedback">
+                    {% for message in form.image.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                {{ form.name(class_="form-control") }}
+                <label class="form-label" for="name">{{ form.name.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.name.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                {{ form.description(class_="form-control") }}
+                <label class="form-label" for="description">{{ form.description.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.description.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="cuisine">Select Cuisine</label>
+                {{ form.cuisine(class_="form-control") }}
+
+                <div class="invalid-feedback">
+                    {% for message in form.cuisine.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="course">Select Course</label>
+                {{ form.course(class_="form-control") }}
+
+                <div class="invalid-feedback">
+                    {% for message in form.course.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                {{ form.ingredients(class_="form-control", rows="7") }}
+                <label class="form-label" for="ingredients">{{ form.ingredients.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.ingredients.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                {{ form.instructions(class_="form-control", cols="35", rows="20") }}
+                <label class="form-label" for="instructions">{{ form.instructions.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.instructions.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block">Share</button>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

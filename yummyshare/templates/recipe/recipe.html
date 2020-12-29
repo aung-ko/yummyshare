@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ recipe.name }} | YummyShare
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="row pt-2">
+    <div class="col-lg-10 offset-lg-1">
+        <h3 class="mt-3">{{ recipe.name }}</h3>
+        <small class="text-muted">by {{ recipe.user.username }} - <span
+                class="published-date">{{ recipe.created_datetime }}</span></small>
+        </small>
+
+        <p class="mt-3">{{ recipe.description }}</p>
+        <span class="badge bg-info">{{ recipe.display_course }}</span>
+        <span class="badge bg-info">{{ recipe.display_cuisine }}</span>
+
+
+        <form action="{{ url_for('recipe.toggle_save', recipe_id=recipe.id) }}" method="POST" class="float-end">
+            {% if not current_user.is_authenticated %}
+            <button class=" btn btn-sm btn-secondary" type="submit"><i class="far fa-heart"></i> Save</button>
+            {% elif recipe in current_user.saved_recipes %}
+            <button class=" btn btn-sm btn-secondary" type="submit"><i class="fas fa-heart"></i> Saved</button>
+            {% else %}
+            <button class=" btn btn-sm btn-secondary" type="submit"><i class="far fa-heart"></i> Save</button>
+            {% endif %}
+        </form>
+
+        <img src="{{ url_for('static', filename='images/recipes/{}'.format(recipe.image)) }}"
+            class="img-fluid mx-auto d-block center-cropped mb-4 mt-4" alt="{{ recipe.name }}" />
+        <hr>
+
+        <h4 class="mt-3">Ingredients</h4>
+        <div class="wrap-paragraph mb-4">{{ recipe.ingredients }}</div>
+        <hr>
+
+        <h4>Instructions</h4>
+        <div class=" wrap-paragraph mb-4">{{ recipe.instructions }}</div>
+
+
+        {% if current_user.is_authenticated and current_user.id == recipe.user.id %}
+        <div class="d-grid gap-2">
+            <a type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark"
+                href="{{ url_for('recipe.update', recipe_id=recipe.id) }}">
+                Edit your recipe
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

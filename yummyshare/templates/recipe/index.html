@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+YummyShare Recipes
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="row d-flex justify-content-center mt-5 mb-5">
+    <form action="{{ url_for('recipe.search', page=1) }}" action="GET" style="display: inherit;">
+        <div class="col-9">
+            <input type="text" class="form-control" name="q" placeholder="chicken, pizza, soup..">
+        </div>
+        <div class="col-auto">
+            <input type="submit" value="Search" class="btn btn-secondary">
+        </div>
+    </form>
+</div>
+
+
+<div class="row pt-2">
+    <div class="mb-3 col-lg-8">
+        <h3>New Recipes</h3>
+    </div>
+</div>
+
+<div class="row">
+
+    {% for recipe in recipes %}
+    <div class="card mb-3 col-lg-6 col-md-6">
+        <a href="{{ url_for('recipe.view_recipe', recipe_id=recipe.id) }}">
+            <img src="{{ url_for('static', filename='images/recipes/{}'.format(recipe.image)) }}"
+                class="card-img-top pt-2" alt="{{ recipe.name }}" />
+        </a>
+        <div class="card-body">
+            <h5 class="card-title"><a href="{{ url_for('recipe.view_recipe', recipe_id=recipe.id) }}">{{ recipe.name }}
+            </h5></a>
+            <p class="card-text">
+                {{ recipe.description }}
+            </p>
+            <p class="card-text">
+                <small class="text-muted">published on
+                    <span class="published-date">{{ recipe.created_datetime }}</span>
+                </small>
+                <small class="text-muted"> by {{ recipe.user.username }}</small>
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row pt-2">
+    <div class="col-lg-8">
+        <h3>Or Browse..</h3>
+    </div>
+</div>
+<section class="border p-4 d-flex justify-content-center mb-4 mt-2 flex-wrap">
+    {% for course in courses %}
+    <a href="{{ url_for('recipe.browse', course=course[0], page=1) }}" type="button"
+        class="btn btn-outline-secondary btn-rounded m-1" data-mdb-ripple-color="dark">
+        {{ course[1] }}
+    </a>
+    {% endfor %}
+</section>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Register
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-lg-4 offset-lg-4">
+        <h2 class="mb-3">Register</h2>
+        <form method="POST" action="{{ url_for('auth.register') }}">
+            {{ form.csrf_token }}
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+                {{ form.username(class_="form-control") }}
+                <label class="form-label" for="username">{{ form.username.label }}</label>
+
+                <div class="invalid-feedback">
+                    {% for message in form.username.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                {{ form.password(class_="form-control") }}
+                <label class="form-label" for="password">{{ form.password.label }}</label>
+
+                {% if form.password.errors %}
+                <div class="invalid-feedback">
+                    {% for message in form.password.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-outline mb-4">
+                {{ form.confirm_password(class_="form-control") }}
+                <label class="form-label" for="confirm_password">{{ form.confirm_password.label }}</label>
+
+                {% if form.confirm_password.errors %}
+                <div class="invalid-feedback">
+                    {% for message in form.confirm_password.errors %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block">register</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
